@@ -21,8 +21,8 @@ flask-socketio
 html2image
 ```
 
-`pip3 install pillow flask flask-socketio html2image`
+`pip3 install pillow flask flask-socketio pywebview html2image`
 
 if that gives you trouble installing please use
 
-`pip3 install pillow flask flask-socketio html2image --break-system-packages`
+`pip3 install pillow flask flask-socketio pywebview html2image --break-system-packages`

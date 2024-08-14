@@ -1,0 +1,184 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    scroll-behavior: smooth;
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: large;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    gap: 5px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.disabled {
+    background-color: gray;
+    padding: 15px;
+    font-size: 64px; /* Adjust this as needed */
+    display: flex; /* Ensure it uses flexbox if you want gap to work */
+    gap: 15px;
+    width: 103.6;
+    text-align: center;
+    justify-content: center;
+}
+
+.disabled:hover {
+    background-color: gray;
+    padding: 15px;
+    font-size: 64px; /* Adjust this as needed */
+    display: flex; /* Ensure it uses flexbox if you want gap to work */
+    gap: 15px;
+    width: 103.6;
+    text-align: center;
+    justify-content: center;
+}
+
+.alert {
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+    width: 300px;
+    border-radius: 3px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alert.success {
+    background-color: #04aa6d;
+}
+.alert.info {
+    background-color: #2196f3;
+}
+.alert.warning {
+    background-color: #ff9800;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}
+
+h1 {
+    color: #007bff;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    input[type="text"] {
+        width: 90%; /* Make input field wider on smaller screens */
+        padding: 15px; /* Increase padding for better touch experience */
+    }
+
+    button {
+        padding: 15px 30px; /* Increase button size */
+        font-size: 1.2em; /* Larger text on button */
+    }
+
+    .alert {
+        width: 90%; /* Make alert box wider on smaller screens */
+        font-size: 1.2em; /* Increase font size for better readability */
+    }
+
+    .closebtn {
+        font-size: 26px; /* Increase close button size */
+    }
+
+    h1 {
+        font-size: 2em; /* Larger heading on smaller screens */
+    }
+}
+
+.VoteOption {
+    padding: 15px;
+    font-size: 64px; /* Adjust this as needed */
+    display: flex; /* Ensure it uses flexbox if you want gap to work */
+    gap: 15px;
+    width: 103.6;
+    text-align: center;
+    justify-content: center;
+}
+
+#suwigaiow {
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.reaction {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    text-align: center;
+    width: 10vw; /* Width is 10% of the viewport width */
+    height: 10vw; /* Height is 10% of the viewport width */
+    font-size: 4vw; /* Font size relative to the button size */
+    position: relative; /* Needed for the ::before pseudo-element */
+}
+
+.reaction::before {
+    content: ''; /* Ensure there's content in the ::before pseudo-element */
+    display: block;
+    padding-top: 100%; /* This ensures the element maintains a 1:1 aspect ratio */
+}
+
+.reaction2 {
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    text-align: center;
+    width: 15px; /* Fixed width */
+    height: 15px; /* Fixed height */
+    font-size: 0.6em; /* Font size relative to the button size */
+    position: relative; /* Needed for the ::before pseudo-element */
+}
+
+.reaction2::before {
+    content: ''; /* Ensure there's content in the ::before pseudo-element */
+    display: block;
+}
+
+#reactions2 {
+    max-width: 16px;
+    max-height: 16px;
+    font-size: 0.6em; /* Font size relative to the element size */
+    display: flex; /* Use flexbox to align items */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    text-align: center;
+}

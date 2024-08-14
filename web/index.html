@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, mobile-web-app-capable">
+    <title>Chaotic invetors</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/sharedFunctions.js"></script>
+    <script src="script.js"></script>
+    
+    <script src="/pageloaders/getproblems.js"></script>
+    <script src="/pageloaders/drawingScreen.js"></script>
+    <script src="/pageloaders/vote.js"></script>
+    <script src="/pageloaders/present.js"></script>
+    <script src="/pageloaders/winnerscreen.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+      html {
+        padding-bottom: 1000px;
+      }
+
+      body {
+          position: fixed;
+          left: 0;
+          top: 0;
+          right: 0;
+          bottom: 0;
+      }
+    </style>
+  </head>
+  <body style="overflow: hidden;">
+    <h1>Input name</h1>
+    <input type="text" id="nameInput" placeholder="Enter a name">
+    <button id="selectbutton" onclick="logName()">Select</button>
+    <ul id="nameList" style="gap: 5px; display: flex; flex-wrap: wrap;"></ul>
+  </body>
+</html>

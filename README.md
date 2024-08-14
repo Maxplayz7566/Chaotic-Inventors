@@ -10,7 +10,7 @@ Install all necessary packages, and run `./start.sh` if you get a permission err
 
 Though if you want scorecards to work please use windows. (Correct me if I'm wrong)
 
-Please install ```PyGObject``` for gtk support
+Please install ```PyGObject``` for gtk, so the app can run.
 
 # Required packages:
 ```

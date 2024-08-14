@@ -32,7 +32,7 @@ with open("problems.json", "r") as f:
 
 socketio = SocketIO(app, cors_allowed_origins="*")  # Allow all origins
 window = None
-title = "Chaotic Inventors v1.6"
+title = "Chaotic Inventors v1.0"
 
 
 def png_to_base64_url(image_path):

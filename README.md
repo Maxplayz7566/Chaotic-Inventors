@@ -6,7 +6,7 @@ Install all necessary package, and run start.bat.
 
 ### Running on Unix `Mac/Linux`,
 
-I would recommend using a gtk supported install of python.
+I would recommend using a gtk supported install of python3.
 
 Install all necessary packages, and run `./start.sh` if you get a permission error run `chmod +777 start.sh`.
 

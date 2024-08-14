@@ -1,80 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <script src="script.js"></script>
-        <link rel="stylesheet" type="text/css" href="style.css" />
-        <style>
-            h1 {
-                position: absolute;
-                top: 5%;
-                x: 50%;
-            }
-
-            .qrnip {
-                position: absolute;
-                bottom: 5%;
-                x: 50%;
-                display: flex;
-                gap: 15px;
-                justify-content: center;
-            }
-        </style>
-        <style>
-            @import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
-        </style>
+        <title>Rotating Label</title>
+        <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
         <script>
-            function getLastSegment(ipAddress) {
-                // Split the IP address by '.'
-                const segments = ipAddress.split(".");
-                // Get the last segment
-                let lastSegment = segments[segments.length - 1];
-                // Pad the segment to ensure it has 3 digits
-                lastSegment = lastSegment.padStart(3, "0");
-                return lastSegment;
-            }
-
-            function tryGetIp() {
-                // Check if pywebview is defined
-                if (
-                    typeof pywebview !== "undefined" &&
-                    pywebview.api &&
-                    pywebview.api.getIp
-                ) {
-                    pywebview.api
-                        .getIp()
-                        .then(function (data) {
-                            // If data is valid, we assume success
-                            if (data) {
-                                console.log(getLastSegment(data));
-                                document.getElementById(
-                                    "asgduijasndujwd"
-                                ).innerText = "Connect via QR Code, URL or code: " + getLastSegment(data);
-                                document.getElementById(
-                                    "connectviaip"
-                                ).innerText = "http://" + data + ":5000";
-                                document.getElementById(
-                                    "QRCODE"
-                                ).src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://${data}:5000`;
-                            } else {
-                                // Retry after 1 millisecond if data is not valid
-                                setTimeout(tryGetIp, 1);
-                            }
-                        })
-                        .catch(function (error) {
-                            // Retry after 1 millisecond if there is an error
-                            console.error(error);
-                            setTimeout(tryGetIp, 1);
-                        });
-                } else {
-                    // Retry after 1 millisecond if pywebview is not defined
-                    setTimeout(tryGetIp, 1);
-                }
-            }
-
-            // Initial call to start the process
-            tryGetIp();
-
             // Store active animations
             const animations = [];
 
@@ -82,6 +13,7 @@
             function createTextAnimation(text, duration) {
                 // Set up the canvas and context
                 const canvas = document.getElementById("myCanvas");
+                if (!canvas) return; // Check if the canvas exists
                 const ctx = canvas.getContext("2d");
 
                 // Set canvas size to fill the viewport
@@ -106,14 +38,13 @@
             function update() {
                 // Set up the canvas and context
                 const canvas = document.getElementById("myCanvas");
+                if (!canvas) return; // Check if the canvas exists
                 const ctx = canvas.getContext("2d");
 
                 // Set canvas size to fill the viewport
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                const startY = canvas.height;
-                const endY = -100; // Text will fly off-screen above
-                const randomX = Math.random() * canvas.width;
+
                 // Clear the canvas
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -148,77 +79,123 @@
             }
 
             function addText(text, duration) {
-                update();
                 createTextAnimation(text, duration);
+                update(); // Ensure the update loop starts
             }
         </script>
+        <style>
+            @keyframes rotate {
+                0% {
+                    transform: rotate(-5deg);
+                }
+                50% {
+                    transform: rotate(5deg);
+                }
+                100% {
+                    transform: rotate(-5deg);
+                }
+            }
+
+            h1 {
+                color: #007bff;
+            }
+
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+                background-color: #f4f4f4;
+                overflow-y: hidden;
+            }
+
+            button {
+                padding: 10px 20px;
+                gap: 5px;
+                font-size: large;
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #0056b3;
+            }
+
+            .disabled:hover {
+                background-color: #007bff;
+            }
+
+            /* Style for the text label */
+            .flying-label {
+                position: fixed; /* Fixed position to keep it in viewport */
+                bottom: 0; /* Start from the bottom */
+                left: 50%; /* Center horizontally */
+                transform: translateX(-50%); /* Center the label */
+                background-color: rgba(
+                    0,
+                    0,
+                    0,
+                    0.7
+                ); /* Semi-transparent background */
+                color: white; /* Text color */
+                padding: 10px;
+                border-radius: 5px;
+                white-space: nowrap; /* Prevent text wrapping */
+                z-index: 1000; /* Ensure it appears above other content */
+            }
+
+            /* Animation keyframes */
+            @keyframes flyUp {
+                from {
+                    bottom: 0;
+                    opacity: 1;
+                }
+                to {
+                    bottom: 100%;
+                    opacity: 0;
+                }
+            }
+
+            /* Class to apply animation */
+            .animate-fly {
+                animation: flyUp 3s forwards; /* Adjust duration as needed */
+            }
+        </style>
     </head>
     <body>
-        <canvas
-            id="myCanvas"
-            style="position: absolute; size: 100%; overflow: hidden"
-        ></canvas>
-        <label style="position: absolute; bottom: 5px; right: 5px" class="switch">
-            <input id="enableAudio" type="checkbox" checked>
-            <span class="slider-on round" id="enableAudio2"></span>
-        </label>        
-        <h1 id="asgduijasndujwd">Connect via QR, URL or</h1>
-        <button
-            style="position: absolute; top: 5px; right: 5px"
-            onclick="window.pywebview.api.startGame();"
-        >
-            Start!
-        </button>
-        <div id="playerlist" style="z-index: 10000;"></div>
-        <div
-            class="qrnip"
-            style="
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 128px;
-            "
-        >
-            <h2 id="connectviaip" style="margin: 0; padding-right: 10px">
-                Loading
-            </h2>
-            <img id="QRCODE" src="" style="width: 128px; max-width: 128px" />
-        </div>
-
         <script>
-            var audio = new Audio("/ost1.wav");
-            var enableAudio = document.getElementById("enableAudio");
+            document.addEventListener("keydown", function (event) {
+                if (event.ctrlKey && event.key === "r") {
+                    event.preventDefault();
 
-            enableAudio.addEventListener("click", (ev) => {
-                pywebview.api.setMusic(enableAudio.checked);
+                    window.location.reload();
+                }
 
-                console.log(enableAudio.checked);
-                const slider = document.getElementById("enableAudio2");
-
-                if (enableAudio.checked) {
-                    slider.classList.add("slider-on");
-                    slider.classList.remove("slider-off");
-
-                    audio.play();
-                } else {
-                    slider.classList.add("slider-off");
-                    slider.classList.remove("slider-on");
-
-                    audio.pause();
+                if (event.key === "F11") {
+                    console.log("asdu");
+                    event.preventDefault();
+                    pywebview.api.fullscreen();
                 }
             });
 
-            setTimeout(function () {
-                // Attempt to play audio on page load
-                audio
-                    .play()
-                    .then(() => {
-                        console.log("Audio is playing");
-                    })
-                    .catch((error) => {
-                        window.location.reload();
-                    });
-            }, 150);
+            function createSplash(text) {
+                var label = document.createElement("h1");
+                label.id = "splashtext";
+                label.innerText = text;
+                label.style.display = "inline-block";
+                label.style.fontSize = "36px";
+                label.style.animation = "rotate 3s infinite ease-in-out";
+
+                document.body.appendChild(label);
+            }
+
+            createSplash("Get ready!");
         </script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-var socket = io(window.location.hostname + ':5000', {
+var socket = io(window.location.hostname + `:${location.port}`, {
     autoConnect: false
 });
 

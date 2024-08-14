@@ -2,7 +2,7 @@
 
 ### Running on windows,
 
-Install all necessary package, and run start.bat.
+Install all necessary package, and run `start.bat`.
 
 ### Running on Unix `Mac/Linux`,
 

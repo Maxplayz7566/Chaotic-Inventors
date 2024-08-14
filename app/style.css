@@ -1,0 +1,228 @@
+/* Base styles */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+
+input[type="text"] {
+  width: 300px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  gap: 5px;
+  font-size: large;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.disabled:hover {
+  background-color: #007bff;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+  width: 300px;
+  border-radius: 3px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.alert.success {
+  background-color: #04aa6d;
+}
+.alert.info {
+  background-color: #2196f3;
+}
+.alert.warning {
+  background-color: #ff9800;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+h1 {
+  color: #007bff;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  input[type="text"] {
+    width: 90%; /* Make input field wider on smaller screens */
+    padding: 15px; /* Increase padding for better touch experience */
+  }
+
+  button {
+    padding: 15px 30px; /* Increase button size */
+    font-size: 1.2em; /* Larger text on button */
+  }
+
+  .alert {
+    width: 90%; /* Make alert box wider on smaller screens */
+    font-size: 1.2em; /* Increase font size for better readability */
+  }
+
+  .closebtn {
+    font-size: 26px; /* Increase close button size */
+  }
+
+  h1 {
+    font-size: 2em; /* Larger heading on smaller screens */
+  }
+}
+
+img {
+  max-width: 80vw; /* 80% of the viewport width */
+  max-height: 80vh; /* 80% of the viewport height */
+  width: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Ensure image fits well within the container */
+}
+
+@font-face {
+  font-family: 'EmojiFont';
+  src: url('emojifont.ttf') format('truetype');
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider-on {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+/* The slider */
+.slider-off {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+/* Adjust the slider circle size and position */
+.slider-on:before {
+  position: absolute;
+  content: "";
+  height: 26px; /* Same as width */
+  width: 26px; /* Same as height */
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  background-image: url(/music_note_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
+  background-size: contain; /* Ensures the image covers the element */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents repeating the image */
+}
+
+.slider-off:before {
+  position: absolute;
+  content: "";
+  height: 26px; /* Same as width */
+  width: 26px; /* Same as height */
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  background-image: url(/music_off_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
+  background-size: contain; /* Ensures the image covers the element */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents repeating the image */
+}
+
+input:checked + .slider-on {
+  background-color: #2196F3;
+}
+
+input:focus + .slider-off {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:focus + .slider-on {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider-on:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider-on.round {
+  border-radius: 34px;
+}
+
+.slider-on.round:before {
+  border-radius: 50%;
+}
+
+.slider-off.round {
+  border-radius: 34px;
+}
+
+.slider-off.round:before {
+  border-radius: 50%;
+}

@@ -562,7 +562,9 @@ class Api:
             return "Cant start the game you need atleast 2 people to play!"
 
     def getIp(self):
-        return socket.gethostbyname(socket.gethostname())
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('10.0.0.0', 0))  
+        return s.getsockname()[0]
 
     def restart(self):
         window.destroy()

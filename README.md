@@ -13,3 +13,10 @@ Install all necessary packages, and run `./start.sh` if you get a permission err
 Though if you want scorecards to work please use windows. (Correct me if I'm wrong)
 
 # Required packages:
+```
+pillow
+pywebview
+flask
+flask-socketio
+html2image
+```

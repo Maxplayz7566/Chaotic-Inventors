@@ -3,3 +3,5 @@
 ### Running on windows
 
 install all necessary packages
+
+### Running on Unix `Mac/Linux`

@@ -245,22 +245,25 @@ def reaction(data):
 
 @socketio.on('set_user_name')
 def handle_set_user_name(data):
-    user_name = data
-    if user_name and not playing:
-        session_id = request.sid
-        connected_users[session_id] = user_name
-        socketio.emit('playersUpdate', connected_users)
-        print(f'User connected: {user_name}')
-    else:
-        socketio.emit('playersUpdate', connected_usrs)
+    try:
+        user_name = data
+        if user_name and not playing:
+            session_id = request.sid
+            connected_users[session_id] = user_name
+            socketio.emit('playersUpdate', connected_users)
+            print(f'User connected: {user_name}')
+        else:
+            socketio.emit('playersUpdate', connected_usrs)
 
-    window.evaluate_js('document.getElementById("playerlist").innerHTML = ""')
+        window.evaluate_js('document.getElementById("playerlist").innerHTML = ""')
 
-    for sid in connected_users:
-        print(connected_users[sid])
-        window.evaluate_js(f'''document.getElementById("playerlist").innerHTML += `<button onclick="pywebview.api.kickUser('{sid}');" enabled="true">{connected_users[sid]}</button>''')
+        for sid in connected_users:
+            print(connected_users[sid])
+            window.evaluate_js(f'''document.getElementById("playerlist").innerHTML += `<button onclick="pywebview.api.kickUser('{sid}');" enabled="true">{connected_users[sid]}</button>''')
 
-    window.set_title(f"{title} - {len(connected_users)} Connected players")
+        window.set_title(f"{title} - {len(connected_users)} Connected players")
+    except Exception as e:
+        print(e)
 
 
 @socketio.on('disconnect')

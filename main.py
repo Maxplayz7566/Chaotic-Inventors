@@ -43,7 +43,6 @@ def copy(src, dst):
     except:
         pass
 
-
 def getJsCodeSnippet(name):
     with open(f"js-snippets/{name}.js", "r") as f:
         data = f.read()

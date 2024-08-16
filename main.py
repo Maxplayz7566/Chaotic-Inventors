@@ -465,10 +465,10 @@ async def main_game():
             for i in range(10):  # 10
                 if len(voted_users) == len(connected_users) - 1:
                     break
-                await asyncio.wait(1)
+                await asyncio.sleep(1)
         except Exception as e:
-            print(u"ERROR 2: \e[1;32m" + str(traceback.format_exc()))
-
+            print(f"ERROR 2: \033[1;32m{traceback.format_exc()}\033[0m")
+            
     socketio.emit("winners-time", "")
 
     # Show splash screen for the winner

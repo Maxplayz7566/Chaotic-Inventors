@@ -19,10 +19,11 @@ pywebview
 flask
 flask-socketio
 html2image
+qtpy
 ```
 
-`pip3 install pillow flask flask-socketio pywebview html2image`
+`pip3 install pillow flask flask-socketio pywebview html2image qtpy`
 
 if that gives you trouble installing please use
 
-`pip3 install pillow flask flask-socketio pywebview html2image --break-system-packages`
+`pip3 install pillow flask flask-socketio pywebview html2image qtpy --break-system-packages`

@@ -36,6 +36,11 @@ socketio = SocketIO(app, cors_allowed_origins="*")  # Allow all origins
 window = None
 title = "Chaotic Inventors v1.0"
 
+def copy(src, dst):
+    with open(src, "r") as f:
+        open(dst, "w+").write(f.read())
+        f.close()
+
 def getJsCodeSnippet(name):
     with open(f"js-snippets/{name}.js", "r") as f:
         data = f.read()
@@ -637,7 +642,7 @@ if __name__ == '__main__':
         os.mkdir(configDir)
         print(f"Created config dir at {configDir}")
 
-    os.rename("sound/ost1.wav", os.path.join(configDir, "ost1.wav"))
+    copy("sound/ost1.wav", os.path.join(configDir, "ost1.wav"))
 
     fs = False
     with open("fullscreen.txt", "r") as f:

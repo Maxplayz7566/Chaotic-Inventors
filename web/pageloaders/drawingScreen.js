@@ -49,6 +49,8 @@ function createDrawingApp() {
     doneButton.innerText = "Done drawing"
     doneButton.style.position = "fixed"
     doneButton.style.zIndex = "1000"
+    doneButton.style.bottom = "2px"
+    eraserButton.style.fontSize = "10px"
     doneButton.style.left = "50%"
     body.appendChild(doneButton)
 

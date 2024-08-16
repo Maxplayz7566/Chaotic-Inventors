@@ -37,9 +37,15 @@ window = None
 title = "Chaotic Inventors v1.0"
 
 def copy(src, dst):
-    with open(src, "r") as f:
-        open(dst, "w+").write(f.read())
-        f.close()
+    try:
+        with open(src, 'r') as src_file:
+            with open(dst, 'w') as dst_file:
+                dst_file.write(src_file.read())
+    except FileNotFoundError:
+        print(f"Error: The file {src} was not found.")
+    except IOError as e:
+        print(f"Error: {e}")
+
 
 def getJsCodeSnippet(name):
     with open(f"js-snippets/{name}.js", "r") as f:

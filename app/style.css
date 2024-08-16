@@ -232,26 +232,6 @@ input:checked+.slider-on:before {
   border-radius: 50%;
 }
 
-.wrapper545 {
-  position: relative;
-  overflow: hidden;
-  width: 100px;
-  height: 100px;
-  border: 1px solid black;
-}
-
-#slide545 {
-  position: absolute;
-  left: -100px;
-  width: 100px;
-  height: 100px;
-  background: blue;
-  -webkit-animation: slide 0.5s forwards;
-  -webkit-animation-delay: 2s;
-  animation: slide 0.5s forwards;
-  animation-delay: 2s;
-}
-
 @-webkit-keyframes slide {
   100% {
     left: 0;

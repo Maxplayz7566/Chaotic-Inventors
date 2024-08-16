@@ -637,7 +637,7 @@ if __name__ == '__main__':
         os.mkdir(configDir)
         print(f"Created config dir at {configDir}")
 
-    os.rename("ost1.wav", os.path.join(configDir, "ost1.wav"))
+    os.rename("sound/ost1.wav", os.path.join(configDir, "ost1.wav"))
 
     fs = False
     with open("fullscreen.txt", "r") as f:

@@ -466,7 +466,7 @@ async def main_game():
                     break
                 await asyncio.wait(1)
         except Exception as e:
-            print("ERROR 2: " + str(e))
+            print("ERROR 2: " + str(e.with_traceback))
 
     socketio.emit("winners-time", "")
 

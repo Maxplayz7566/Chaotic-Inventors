@@ -672,4 +672,4 @@ if __name__ == '__main__':
 
     api = Api()
     window = webview.create_window(title, 'app/index.html', js_api=api, maximized=True, fullscreen=fs)
-    webview.start(private_mode=True, debug=True, ssl=False)
+    webview.start(private_mode=True, debug=False, ssl=False)

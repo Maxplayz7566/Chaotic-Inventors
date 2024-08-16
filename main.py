@@ -24,6 +24,7 @@ connected_users = {}
 user_drawings = {}
 user_scores = {}
 user_prompts = {}
+voted_users = []
 current_user_drawing = ""
 playing = False
 sound = True
@@ -250,9 +251,9 @@ def handle_set_user_name(data):
         socketio.emit('playersUpdate', connected_users)
         print(f'User connected: {user_name}')
     else:
-        socketio.emit('playersUpdate', connected_users)
+        socketio.emit('playersUpdate', connected_usrs)
 
-    window.evaluate_js('document.getElementById("playerlist").innerHTML = "";')
+    window.evaluate_js('document.getElementById("plyerlist").innerHTML = "";')
 
     for sid in connected_users:
         print(connected_users[sid])
@@ -292,6 +293,7 @@ def hadheahda(data):
 @socketio.on('vote-status')
 def haasgwahg(data):
     session_id = request.sid
+    voted_users.append(session_id)
     user_scores[current_user_drawing] += data
 
 
@@ -395,6 +397,7 @@ async def main_game():
     # Present each user's drawing and handle voting
     for user_id in user_drawings:
         try:
+            voted_users = []
             img_src = user_drawings[user_id]
             current_user_drawing = user_id
             js_code = f'''
@@ -442,7 +445,10 @@ async def main_game():
                 window.evaluate_js(getJsCodeSnippet("votingtime"))
             except Exception as e:
                 print("ERROR: " + str(e))
-            await countdown2(10, f"Voting time left: ") # 10
+            for i in range(10):  # 10
+                if len(voted_users) == len(connected_users) - 1:
+                    break
+                asyncio.wait(1)
         except Exception as e:
             print("ERROR 2: " + str(e))
 

@@ -669,8 +669,6 @@ if __name__ == '__main__':
     flask_thread.daemon = True
     flask_thread.start()
 
-    print(getJsCodeSnippet("playost1"))
-
     if not os.path.exists(configDir):
         os.mkdir(configDir)
         print(f"Created config dir at {configDir}")

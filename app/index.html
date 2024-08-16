@@ -49,7 +49,9 @@
                                 console.log(getLastSegment(data));
                                 document.getElementById(
                                     "asgduijasndujwd"
-                                ).innerText = "Connect via QR Code, URL or code: " + getLastSegment(data);
+                                ).innerText =
+                                    "Connect via QR Code, URL or code: " +
+                                    getLastSegment(data);
                                 document.getElementById(
                                     "connectviaip"
                                 ).innerText = "http://" + data + ":5000";
@@ -158,10 +160,13 @@
             id="myCanvas"
             style="position: absolute; size: 100%; overflow: hidden"
         ></canvas>
-        <label style="position: absolute; bottom: 5px; right: 5px" class="switch">
-            <input id="enableAudio" type="checkbox" checked>
+        <label
+            style="position: absolute; bottom: 5px; right: 5px"
+            class="switch"
+        >
+            <input id="enableAudio" type="checkbox" checked />
             <span class="slider-on round" id="enableAudio2"></span>
-        </label>        
+        </label>
         <h1 id="asgduijasndujwd">Connect via QR, URL or</h1>
         <button
             style="position: absolute; top: 5px; right: 5px"
@@ -186,7 +191,24 @@
         </div>
 
         <script>
-            var audio = new Audio("/ost1.wav");
+            fetch("http://localhost:5000/ost?num=1")
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.blob(); // Use blob() to handle binary data
+                })
+                .then((blob) => {
+                    audioUrl = URL.createObjectURL(blob); // Create a URL for the Blob
+                })
+                .catch((error) => {
+                    console.error(
+                        "There was a problem with the fetch operation:",
+                        error
+                    );
+                });
+
+            var audio = new Audio(audioUrl);
             var enableAudio = document.getElementById("enableAudio");
 
             enableAudio.addEventListener("click", (ev) => {

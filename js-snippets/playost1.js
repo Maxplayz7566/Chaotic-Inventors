@@ -18,7 +18,7 @@ function playOST1(duration) {
             );
         });
 
-    var audio = new Audio("/ost1.wav");
+    var audio = new Audio(audioUrl);
     audio.play().catch(function (error) {
         console.log("Error playing audio:", error);
     });

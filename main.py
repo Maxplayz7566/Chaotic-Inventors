@@ -398,13 +398,15 @@ async def main_game():
             img_src = user_drawings[user_id]
             current_user_drawing = user_id
             js_code = f'''
-            document.body.innerHTML = `<canvas id="myCanvas" style="position: absolute; size: 100%; overflow: hidden"></canvas>`;
-    
+            document.body.innerHTML = `<canvas id="myCanvas" style="position: absolute; size: 100%; overflow: hidden"></canvas><div class="wrapper" id="imgcontain"></div>`;
+            
+
+
             var imgViewer = document.createElement("img");
             imgViewer.src = "{img_src}";
-            imgViewer.style.animation = "rotate 3s infinite ease-in-out";
+            imgViewer.id = "slide";
     
-            document.body.appendChild(imgViewer);
+            document.getElementById("imgcontain").appendChild(imgViewer);
     
             var userTitle = document.createElement("h1");
     
@@ -481,6 +483,11 @@ async def main_game():
         data[connected_users[socket_id]] = user_scores[socket_id] #  sort by highest scores
 
     data = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
+
+    print(data)
+
+    if os.name() != "windows":
+        return
 
     hti = Html2Image()
     hti.screenshot(html_str=dict_to_html_table(data), save_as='scorecard.png')

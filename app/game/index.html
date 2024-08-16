@@ -96,6 +96,7 @@
                 }
             }
 
+
             h1 {
                 color: #007bff;
             }
@@ -109,7 +110,7 @@
                 height: 100vh;
                 margin: 0;
                 background-color: #f4f4f4;
-                overflow-y: hidden;
+                overflow: hidden;
             }
 
             button {
@@ -165,6 +166,35 @@
             /* Class to apply animation */
             .animate-fly {
                 animation: flyUp 3s forwards; /* Adjust duration as needed */
+            }
+
+            .wrapper {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                overflow: visible;
+            }
+
+            #slide {
+                position: absolute; /* Ensure it's positioned relative to .wrapper */
+                left: -100%; /* Start off-screen to the left */
+                width: 100%;
+                height: 100%;
+                background: transparent;
+                -webkit-animation: bounce 0.5s forwards; /* For WebKit browsers */
+                -webkit-animation-delay: 2s; /* Delay before animation starts */
+                animation: bounce 0.4s forwards, rotate 3s infinite ease-in-out; /* Standard syntax */
+                animation-delay: 0.1s; /* Delay before animation starts */
+            }
+
+            @-webkit-keyframes bounce {
+                0% { left: -100%; }
+                100% { left: 0; }
+            }
+
+            @keyframes bounce {
+                0% { left: -100%; }
+                100% { left: 0; }
             }
         </style>
     </head>

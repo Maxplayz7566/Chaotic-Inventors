@@ -14,13 +14,15 @@ body {
 
 @keyframes rotate {
   0% {
-      transform: rotate(-5deg);
+    transform: rotate(-5deg);
   }
+
   50% {
-      transform: rotate(5deg);
+    transform: rotate(5deg);
   }
+
   100% {
-      transform: rotate(-5deg);
+    transform: rotate(-5deg);
   }
 }
 
@@ -67,9 +69,11 @@ button:hover {
 .alert.success {
   background-color: #04aa6d;
 }
+
 .alert.info {
   background-color: #2196f3;
 }
+
 .alert.warning {
   background-color: #ff9800;
 }
@@ -93,11 +97,16 @@ h1 {
 }
 
 img {
-  max-width: 80vw; /* 80% of the viewport width */
-  max-height: 80vh; /* 80% of the viewport height */
-  width: auto; /* Maintain aspect ratio */
-  height: auto; /* Maintain aspect ratio */
-  object-fit: contain; /* Ensure image fits well within the container */
+  max-width: 80vw;
+  /* 80% of the viewport width */
+  max-height: 80vh;
+  /* 80% of the viewport height */
+  width: auto;
+  /* Maintain aspect ratio */
+  height: auto;
+  /* Maintain aspect ratio */
+  object-fit: contain;
+  /* Ensure image fits well within the container */
 }
 
 @font-face {
@@ -150,48 +159,58 @@ img {
 .slider-on:before {
   position: absolute;
   content: "";
-  height: 26px; /* Same as width */
-  width: 26px; /* Same as height */
+  height: 26px;
+  /* Same as width */
+  width: 26px;
+  /* Same as height */
   left: 4px;
   bottom: 4px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
   background-image: url(/music_note_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
-  background-size: contain; /* Ensures the image covers the element */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents repeating the image */
+  background-size: contain;
+  /* Ensures the image covers the element */
+  background-position: center;
+  /* Centers the image */
+  background-repeat: no-repeat;
+  /* Prevents repeating the image */
 }
 
 .slider-off:before {
   position: absolute;
   content: "";
-  height: 26px; /* Same as width */
-  width: 26px; /* Same as height */
+  height: 26px;
+  /* Same as width */
+  width: 26px;
+  /* Same as height */
   left: 4px;
   bottom: 4px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
   background-image: url(/music_off_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
-  background-size: contain; /* Ensures the image covers the element */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents repeating the image */
+  background-size: contain;
+  /* Ensures the image covers the element */
+  background-position: center;
+  /* Centers the image */
+  background-repeat: no-repeat;
+  /* Prevents repeating the image */
 }
 
-input:checked + .slider-on {
+input:checked+.slider-on {
   background-color: #2196F3;
 }
 
-input:focus + .slider-off {
+input:focus+.slider-off {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:focus + .slider-on {
+input:focus+.slider-on {
   box-shadow: 0 0 1px #2196F3;
 }
 
-input:checked + .slider-on:before {
+input:checked+.slider-on:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -212,4 +231,36 @@ input:checked + .slider-on:before {
 
 .slider-off.round:before {
   border-radius: 50%;
+}
+
+.wrapper545 {
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  border: 1px solid black;
+}
+
+#slide545 {
+  position: absolute;
+  left: -100px;
+  width: 100px;
+  height: 100px;
+  background: blue;
+  -webkit-animation: slide 0.5s forwards;
+  -webkit-animation-delay: 2s;
+  animation: slide 0.5s forwards;
+  animation-delay: 2s;
+}
+
+@-webkit-keyframes slide {
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes slide {
+  100% {
+    left: 0;
+  }
 }

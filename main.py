@@ -38,7 +38,10 @@ window = None
 title = "Chaotic Inventors v1.0"
 
 def copy(src, dst):
-    shutil.copy(src, dst)
+    try:
+        shutil.copy(src, dst)
+    except:
+        pass
 
 
 def getJsCodeSnippet(name):

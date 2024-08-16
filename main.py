@@ -13,6 +13,7 @@ try:
     from flask_socketio import emit, SocketIO
     from PIL import Image
     import base64
+    import shutil
     from io import BytesIO
 except Exception as e:
     print(f"Error please install nessasary packages {str(e)}")
@@ -35,6 +36,13 @@ with open("problems.json", "r") as f:
 socketio = SocketIO(app, cors_allowed_origins="*")  # Allow all origins
 window = None
 title = "Chaotic Inventors v1.0"
+
+def copy(src, dst):
+    try:
+        shutil.copy(src, dst)
+    except:
+        pass
+
 
 def getJsCodeSnippet(name):
     with open(f"js-snippets/{name}.js", "r") as f:
@@ -429,19 +437,8 @@ async def main_game():
 
             socketio.emit("voting-time", connected_users[user_id], skip_sid=user_id)
 
-            js_code275 = f'''document.body.innerHTML = "";
-var label = document.createElement("h1");
-label.id = "splashtext";
-label.styledisplay = "inline-block";
-label.style.fontSize = "36px";
-label.style.animation = "rotate 3s infinite ease-in-out";
-
-document.body.appendChild(label);
-
-label.innerText = "Voting time...";
-'''
             try:
-                window.evaluate_js(js_code275)
+                window.evaluate_js(getJsCodeSnippet("votingtime"))
             except Exception as e:
                 print("ERROR: " + str(e))
             await countdown2(10, f"Voting time left: ") # 10
@@ -477,43 +474,7 @@ label.innerText = "Voting time...";
             createSplash("{connected_users[single_winner]} is the winner!");
             '''
 
-    window.evaluate_js(
-        js_code3 + """
-document.body.innerHTML += '<button style="position: absolute; top: 5px; right: 5px;" onclick="pywebview.api.restart();">Restart</button>';
-const jsConfetti = new JSConfetti();
-
-var audio = new Audio("/yay.wav"); audio.play();
-
-let executionCount = 0;
-
-const intervalId = setInterval(() => {
-    jsConfetti.addConfetti({
-        confettiRadius: 6,
-        confettiNumber: 20,
-    });
-
-    executionCount++;
-
-    if (executionCount >= 15) {
-        clearInterval(intervalId);
-    }
-}, 50);
-
-pywebview.api.music()
-    .then((state) => {
-        if (state) {
-            setTimeout(() => {
-                const audio = new Audio("/ost1.wav");
-                audio.play().catch(error => {
-                    console.error("Error playing audio:", error);
-                });
-        }, 50);
-    }
-})
-.catch(error => {
-    console.error("Error fetching music state:", error);
-});
-""")
+    window.evaluate_js(js_code3 + "\n" + getJsCodeSnippet("win"))
 
     data = {}
 
@@ -672,6 +633,8 @@ if __name__ == '__main__':
     if not os.path.exists(configDir):
         os.mkdir(configDir)
         print(f"Created config dir at {configDir}")
+
+    copy("sound/ost1.wav", os.path.join(configDir, "ost1.wav"))
 
     fs = False
     with open("fullscreen.txt", "r") as f:

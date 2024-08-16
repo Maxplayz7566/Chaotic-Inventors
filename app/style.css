@@ -167,7 +167,7 @@ img {
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
-  background-image: url(/music_note_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
+  background-image: url(music_note_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
   background-size: contain;
   /* Ensures the image covers the element */
   background-position: center;
@@ -188,7 +188,7 @@ img {
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
-  background-image: url(/music_off_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
+  background-image: url(music_off_24dp_000000_FILL0_wght700_GRAD200_opsz24.svg);
   background-size: contain;
   /* Ensures the image covers the element */
   background-position: center;

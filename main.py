@@ -477,43 +477,7 @@ label.innerText = "Voting time...";
             createSplash("{connected_users[single_winner]} is the winner!");
             '''
 
-    window.evaluate_js(
-        js_code3 + """
-document.body.innerHTML += '<button style="position: absolute; top: 5px; right: 5px;" onclick="pywebview.api.restart();">Restart</button>';
-const jsConfetti = new JSConfetti();
-
-var audio = new Audio("/yay.wav"); audio.play();
-
-let executionCount = 0;
-
-const intervalId = setInterval(() => {
-    jsConfetti.addConfetti({
-        confettiRadius: 6,
-        confettiNumber: 20,
-    });
-
-    executionCount++;
-
-    if (executionCount >= 15) {
-        clearInterval(intervalId);
-    }
-}, 50);
-
-pywebview.api.music()
-    .then((state) => {
-        if (state) {
-            setTimeout(() => {
-                const audio = new Audio("/ost1.wav");
-                audio.play().catch(error => {
-                    console.error("Error playing audio:", error);
-                });
-        }, 50);
-    }
-})
-.catch(error => {
-    console.error("Error fetching music state:", error);
-});
-""")
+    window.evaluate_js(js_code3 + "\n" + getJsCodeSnippet("win"))
 
     data = {}
 
@@ -672,6 +636,8 @@ if __name__ == '__main__':
     if not os.path.exists(configDir):
         os.mkdir(configDir)
         print(f"Created config dir at {configDir}")
+
+    os.rename("ost1.wav", os.path.join(configDir, "ost1.wav"))
 
     fs = False
     with open("fullscreen.txt", "r") as f:

@@ -464,7 +464,7 @@ async def main_game():
             for i in range(10):  # 10
                 if len(voted_users) == len(connected_users) - 1:
                     break
-                asyncio.wait(1)
+                await asyncio.wait(1)
         except Exception as e:
             print("ERROR 2: " + str(e))
 

@@ -91,7 +91,6 @@ socket.on("connect", () => {
     reactions.style.display = "flex"
     reactions.style.flexWrap = "wrap"
     reactions.style.justifyContent = "center"
-    //reactions
     reactions.style.gap = "15px"
 })
 

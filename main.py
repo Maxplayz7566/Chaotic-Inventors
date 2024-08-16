@@ -259,7 +259,7 @@ def handle_set_user_name(data):
 
         for sid in connected_users:
             print(connected_users[sid])
-            window.evaluate_js(f'''document.getElementById("playerlist").innerHTML += `<button onclick="pywebview.api.kickUser('{sid}');" enabled="true">{connected_users[sid]}</button>''')
+            window.evaluate_js(f'''document.getElementById("playerlist").innerHTML += `<button onclick="pywebview.api.kickUser('{sid}');" enabled="true">{connected_users[sid]}</button>`''')
 
         window.set_title(f"{title} - {len(connected_users)} Connected players")
     except Exception as e:

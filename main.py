@@ -13,6 +13,7 @@ try:
     from flask_socketio import emit, SocketIO
     from PIL import Image
     import base64
+    import shutil
     from io import BytesIO
 except Exception as e:
     print(f"Error please install nessasary packages {str(e)}")
@@ -37,14 +38,7 @@ window = None
 title = "Chaotic Inventors v1.0"
 
 def copy(src, dst):
-    try:
-        with open(src, 'r') as src_file:
-            with open(dst, 'w') as dst_file:
-                dst_file.write(src_file.read())
-    except FileNotFoundError:
-        print(f"Error: The file {src} was not found.")
-    except IOError as e:
-        print(f"Error: {e}")
+    shutil.copy(src, dst)
 
 
 def getJsCodeSnippet(name):

@@ -461,14 +461,16 @@ async def main_game():
             try:
                 window.evaluate_js(getJsCodeSnippet("votingtime"))
             except Exception as e:
-                print("ERROR: " + str(e))
+                print(f"ERROR 1: \033[1;32m{traceback.format_exc()}\033[0m")
             for i in range(10):  # 10
+                print(len(connected_users) - 1)
+                print(len(voted_users))
                 if len(voted_users) == len(connected_users) - 1:
                     break
                 await asyncio.sleep(1)
         except Exception as e:
             print(f"ERROR 2: \033[1;32m{traceback.format_exc()}\033[0m")
-            
+
     socketio.emit("winners-time", "")
 
     # Show splash screen for the winner

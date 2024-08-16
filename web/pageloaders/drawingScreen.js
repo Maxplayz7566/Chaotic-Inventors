@@ -49,11 +49,17 @@ function createDrawingApp() {
     doneButton.innerText = "Done drawing"
     doneButton.style.position = "fixed"
     doneButton.style.zIndex = "1000"
-    doneButton.style.bottom = "2%"
+    doneButton.style.right = "2%"
     doneButton.style.fontSize = "10px"
-    doneButton.style.left = "50%"
+    doneButton.style.top = "50%"
     doneButton.style.offsetAnchor = "center"
     doneButton.style.offsetPosition = "center"
+    doneButton.style.backgroundColor = "#1fd78d"
+    doneButton.onclick = function(event) {
+        socket.emit("done-drawing")
+        doneButton.disabled = true
+        doneButton.style.display = "none"
+    }
     body.appendChild(doneButton)
 
     const problemLabel = document.createElement('label')

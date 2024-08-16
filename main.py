@@ -28,6 +28,7 @@ voted_users = []
 current_user_drawing = ""
 playing = False
 sound = True
+done_users = []
 configDir = platformdirs.user_config_dir("ChaoiticInventors")
 
 with open("problems.json", "r") as f:
@@ -289,6 +290,10 @@ def hadheahda(data):
     session_id = request.sid
     user_drawings[session_id] = data
 
+@socketio.on('done-drawing')
+def done_drawing():
+    sid = request.sid
+    done_users.append(sid)
 
 @socketio.on('vote-status')
 def haasgwahg(data):
@@ -297,12 +302,19 @@ def haasgwahg(data):
     user_scores[current_user_drawing] += data
 
 
-async def countdown(total_seconds, message):
+async def countdown(total_seconds, message, drawing=False):
     playsoundcode = 'var audio = new Audio("/timerboop.wav"); audio.play();'
 
     for remaining_seconds in range(total_seconds, 0, -1):
         # Update the DOM element with the remaining time
         js_code = f'document.getElementById("splashtext").innerText = "{remaining_seconds} seconds left of {message}";'
+        if drawing:
+            numofconnected_users = len(connected_users)
+            numofdone_users = len(done_users)
+
+            if numofconnected_users == numofdone_users:
+                socketio.emit("drawing-time", False)
+                window.evaluate_js(playsoundcode)
         try:
             window.evaluate_js(js_code)
         except:
@@ -385,7 +397,7 @@ async def main_game():
     window.evaluate_js(getJsCodeSnippet("playost1"))
 
     # Wait for drawing time to finish
-    await countdown(70, "drawing time ✏️")  # 70
+    await countdown(70, "drawing time ✏️", true)  # 70
 
     # Notify all clients that drawing time has ended
     socketio.emit("drawing-time", False)

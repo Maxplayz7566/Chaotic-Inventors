@@ -95,7 +95,7 @@
                             const lastSegment = getLastSegment(data);
                             document.getElementById("asgduijasndujwd").innerText = "Connect via QR Code, URL or code: " + lastSegment;
                             document.getElementById("connectviaip").innerText = "http://" + data + ":5000";
-                            document.getElementById("QRCODE").src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://${data}:5000`;
+                            document.getElementById("QRCODE").src = `https://quickchart.io/qr?text=http://${data}:5000&margin=0&size=512&light=0000`;
                         } else {
                             setTimeout(tryGetIp, 1);
                         }

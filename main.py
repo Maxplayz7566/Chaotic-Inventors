@@ -398,7 +398,7 @@ async def main_game():
     window.evaluate_js(getJsCodeSnippet("playost1"))
 
     # Wait for drawing time to finish
-    await countdown(70, "drawing time ✏️", true)  # 70
+    await countdown(70, "drawing time ✏️", True)  # 70
 
     # Notify all clients that drawing time has ended
     socketio.emit("drawing-time", False)

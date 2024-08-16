@@ -308,14 +308,15 @@ async def countdown(total_seconds, message, drawing=False):
     for remaining_seconds in range(total_seconds, 0, -1):
         # Update the DOM element with the remaining time
         js_code = f'document.getElementById("splashtext").innerText = "{remaining_seconds} seconds left of {message}";'
-        if drawing:
-            numofconnected_users = len(connected_users)
-            numofdone_users = len(done_users)
-
-            if numofconnected_users == numofdone_users:
-                socketio.emit("drawing-time", False)
-                window.evaluate_js(playsoundcode)
+        
         try:
+            if drawing:
+                numofconnected_users = len(connected_users)
+                numofdone_users = len(done_users)
+
+                if numofconnected_users == numofdone_users:
+                    socketio.emit("drawing-time", False)
+                    window.evaluate_js(playsoundcode)
             window.evaluate_js(js_code)
         except:
             pass

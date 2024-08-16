@@ -7,6 +7,7 @@ try:
     import socket
     import threading
     from html2image import Html2Image
+    import platformdirs
     import webview
     from flask import Flask, send_from_directory, request
     from flask_socketio import emit, SocketIO
@@ -25,6 +26,7 @@ user_prompts = {}
 current_user_drawing = ""
 playing = False
 sound = True
+configDir = platformdirs.user_config_dir("ChaoiticInventors")
 
 with open("problems.json", "r") as f:
     problems = json.loads(f.read())
@@ -34,6 +36,11 @@ socketio = SocketIO(app, cors_allowed_origins="*")  # Allow all origins
 window = None
 title = "Chaotic Inventors v1.0"
 
+def getJsCodeSnippet(name):
+    with open(f"js-snippets/{name}.js", "r") as f:
+        data = f.read()
+        f.close()
+    return data
 
 def png_to_base64_url(image_path):
     # Open the image file
@@ -195,6 +202,18 @@ def index():
 def serve_static(filename):
     return send_from_directory('./web', filename)
 
+@app.route('/ost', methods=["GET"])
+def getost():
+    ostnum = request.args.get('num', type=int)
+    if ostnum is None:
+        abort(400, description="Missing 'num' query parameter")
+
+    file_path = os.path.join(configDir, f"ost{ostnum}.wav")
+    if os.path.exists(file_path):
+        return send_file(file_path)
+    else:
+        abort(404)
+
 
 @socketio.on('message')
 def handle_message(data):
@@ -354,31 +373,7 @@ async def main_game():
     # Notify all clients that drawing time is starting
     socketio.emit("drawing-time", True)
 
-    window.evaluate_js("""
-function playOST1(duration) {
-                var audio = new Audio("/ost1.wav");
-                audio.play().catch(function(error) {
-                    console.log("Error playing audio:", error);
-                });
-
-                var delay = duration * 1000;
-
-                setTimeout(function() {
-                    audio.pause(); // Pauses the audio
-                    audio.currentTime = 0; // Resets the audio to the start
-                }, delay);
-            }
-
-pywebview.api.music()
-    .then((state) => {
-    console.log(state);
-        if (state) {
-            playOST1(70);
-        }
-    })
-    .catch(error => {
-        console.error("Error fetching music state:", error);
-    });""")
+    window.evaluate_js(getJsCodeSnippet("playost1"))
 
     # Wait for drawing time to finish
     await countdown(70, "drawing time ✏️")  # 70
@@ -673,6 +668,12 @@ if __name__ == '__main__':
     flask_thread = threading.Thread(target=run_flask_app)
     flask_thread.daemon = True
     flask_thread.start()
+
+    print(getJsCodeSnippet("playost1"))
+
+    if not os.path.exists(configDir):
+        os.mkdir(configDir)
+        print(f"Created config dir at {configDir}")
 
     fs = False
     with open("fullscreen.txt", "r") as f:

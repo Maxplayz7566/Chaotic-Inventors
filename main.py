@@ -14,6 +14,7 @@ try:
     from PIL import Image
     import base64
     import shutil
+    import traceback
     from io import BytesIO
 except Exception as e:
     print(f"Error please install nessasary packages {str(e)}")
@@ -466,7 +467,7 @@ async def main_game():
                     break
                 await asyncio.wait(1)
         except Exception as e:
-            print("ERROR 2: " + str(e.with_traceback))
+            print(u"ERROR 2: \e[1;32m" + str(traceback.format_exc()))
 
     socketio.emit("winners-time", "")
 

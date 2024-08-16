@@ -434,19 +434,8 @@ async def main_game():
 
             socketio.emit("voting-time", connected_users[user_id], skip_sid=user_id)
 
-            js_code275 = f'''document.body.innerHTML = "";
-var label = document.createElement("h1");
-label.id = "splashtext";
-label.styledisplay = "inline-block";
-label.style.fontSize = "36px";
-label.style.animation = "rotate 3s infinite ease-in-out";
-
-document.body.appendChild(label);
-
-label.innerText = "Voting time...";
-'''
             try:
-                window.evaluate_js(js_code275)
+                window.evaluate_js(getJsCodeSnippet("votingtime"))
             except Exception as e:
                 print("ERROR: " + str(e))
             await countdown2(10, f"Voting time left: ") # 10

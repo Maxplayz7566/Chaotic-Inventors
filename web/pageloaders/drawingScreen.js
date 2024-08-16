@@ -50,6 +50,7 @@ function createDrawingApp() {
     doneButton.style.position = "fixed"
     doneButton.style.zIndex = "1000"
     doneButton.style.left = "50%"
+    body.appendChild(doneButton)
 
     const problemLabel = document.createElement('label')
     problemLabel.innerText = problem

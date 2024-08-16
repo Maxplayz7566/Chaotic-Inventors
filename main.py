@@ -317,6 +317,7 @@ async def countdown(total_seconds, message, drawing=False):
                 if numofconnected_users == numofdone_users:
                     socketio.emit("drawing-time", False)
                     window.evaluate_js(playsoundcode)
+                    break
             window.evaluate_js(js_code)
         except:
             pass

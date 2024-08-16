@@ -8,7 +8,20 @@ body {
   height: 100vh;
   margin: 0;
   background-color: #f4f4f4;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+@keyframes rotate {
+  0% {
+      transform: rotate(-5deg);
+  }
+  50% {
+      transform: rotate(5deg);
+  }
+  100% {
+      transform: rotate(-5deg);
+  }
 }
 
 input[type="text"] {
@@ -77,32 +90,6 @@ button:hover {
 
 h1 {
   color: #007bff;
-}
-
-/* Responsive styles */
-@media (max-width: 600px) {
-  input[type="text"] {
-    width: 90%; /* Make input field wider on smaller screens */
-    padding: 15px; /* Increase padding for better touch experience */
-  }
-
-  button {
-    padding: 15px 30px; /* Increase button size */
-    font-size: 1.2em; /* Larger text on button */
-  }
-
-  .alert {
-    width: 90%; /* Make alert box wider on smaller screens */
-    font-size: 1.2em; /* Increase font size for better readability */
-  }
-
-  .closebtn {
-    font-size: 26px; /* Increase close button size */
-  }
-
-  h1 {
-    font-size: 2em; /* Larger heading on smaller screens */
-  }
 }
 
 img {

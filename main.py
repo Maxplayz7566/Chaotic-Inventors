@@ -400,6 +400,7 @@ pywebview.api.music()
     
             var imgViewer = document.createElement("img");
             imgViewer.src = "{img_src}";
+            imgViewer.style.animation = "rotate 3s infinite ease-in-out";
     
             document.body.appendChild(imgViewer);
     

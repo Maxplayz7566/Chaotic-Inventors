@@ -49,11 +49,11 @@ function createDrawingApp() {
     doneButton.innerText = "Done drawing"
     doneButton.style.position = "fixed"
     doneButton.style.zIndex = "1000"
-    doneButton.style.bottom = "2px"
+    doneButton.style.bottom = "2%"
     doneButton.style.fontSize = "10px"
+    doneButton.style.left = "50%"
     doneButton.style.offsetAnchor = "center"
     doneButton.style.offsetPosition = "center"
-    doneButton.style.left = "50%"
     body.appendChild(doneButton)
 
     const problemLabel = document.createElement('label')

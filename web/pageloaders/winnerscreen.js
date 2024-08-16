@@ -13,13 +13,13 @@ function loadwinnerscreen() {
     style.textContent = `
             @keyframes rotate {
                 0% {
-                    transform: rotate(-5deg)
+                    transform: rotate(-5deg);
                 }
                 50% {
-                    transform: rotate(5deg)
+                    transform: rotate(5deg);
                 }
                 100% {
-                    transform: rotate(-5deg)
+                    transform: rotate(-5deg);
                 }
             }
         `

@@ -36,11 +36,11 @@ function loadvotepage(username) {
     const voteButtons = []
 
     // Loop to create 5 buttons
-    for (let i = 0 i < 4 i++) {
+    for (let i = 0; i < 4; i++) {
         const voteButton = document.createElement("button")
         voteButton.innerText = (i + 1).toString()
         voteButton.className = "VoteOption"
-        voteButton.onclick = handleVoteClick(voteButtons, i)
+        voteButton.onclick = handleVoteClick(voteButtons, i + 1)
         voteButtons.push(voteButton)
         voteOptionContainer.appendChild(voteButton)
     }
@@ -49,13 +49,13 @@ function loadvotepage(username) {
     style.textContent = `
         @keyframes rotate {
             0% {
-                transform: rotate(-5deg)
+                transform: rotate(-5deg);
             }
             50% {
-                transform: rotate(5deg)
+                transform: rotate(5deg);
             }
             100% {
-                transform: rotate(-5deg)
+                transform: rotate(-5deg);
             }
         }
     `

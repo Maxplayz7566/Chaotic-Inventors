@@ -1,5 +1,5 @@
 document.body.innerHTML +=
-    '<button style="position: absolute top: 5px right: 5px" onclick="pywebview.api.restart()">Restart</button>'
+    '<button style="position: absolute top: 5px right: 5px" onclick="pywebview.api.restart()">Continue</button>'
 const jsConfetti = new JSConfetti()
 
 var audio = new Audio("/yay.wav")

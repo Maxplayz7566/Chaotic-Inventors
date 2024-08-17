@@ -36,7 +36,7 @@ function loadwaitpage(who) {
     
     body.appendChild(label)
 
-    body.innerHTML += `<div id="reations" style="justify-content: center; display: flex; flex-wrap: wrap; gap: 15px; bottom: 5%Y; position: absolute;">
+    body.innerHTML += `<div id="reations" style="justify-content: center; display: flex; flex-wrap: wrap; gap: 15px; bottom: 2%; position: absolute;">
         <button class="reaction" onclick="react('🔥')">🔥</button>
         <button class="reaction" onclick="react('💀')">💀</button>
         <button class="reaction" onclick="react('💩')">💩</button>

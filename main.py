@@ -14,6 +14,7 @@ try:
     from PIL import Image
     import base64
     import shutil
+    import traceback
     from io import BytesIO
 except Exception as e:
     print(f"Error please install nessasary packages {str(e)}")
@@ -24,9 +25,11 @@ connected_users = {}
 user_drawings = {}
 user_scores = {}
 user_prompts = {}
+voted_users = []
 current_user_drawing = ""
 playing = False
 sound = True
+done_users = []
 configDir = platformdirs.user_config_dir("ChaoiticInventors")
 
 with open("problems.json", "r") as f:
@@ -42,7 +45,6 @@ def copy(src, dst):
         shutil.copy(src, dst)
     except:
         pass
-
 
 def getJsCodeSnippet(name):
     with open(f"js-snippets/{name}.js", "r") as f:
@@ -244,23 +246,25 @@ def reaction(data):
 
 @socketio.on('set_user_name')
 def handle_set_user_name(data):
-    user_name = data
-    if user_name and not playing:
-        session_id = request.sid
-        connected_users[session_id] = user_name
-        socketio.emit('playersUpdate', connected_users)
-        print(f'User connected: {user_name}')
-    else:
-        socketio.emit('playersUpdate', connected_users)
+    try:
+        user_name = data
+        if user_name and not playing:
+            session_id = request.sid
+            connected_users[session_id] = user_name
+            socketio.emit('playersUpdate', connected_users)
+            print(f'User connected: {user_name}')
+        else:
+            socketio.emit('playersUpdate', connected_usrs)
 
-    window.evaluate_js('document.getElementById("playerlist").innerHTML = "";')
+        window.evaluate_js('document.getElementById("playerlist").innerHTML = ""')
 
-    for sid in connected_users:
-        print(connected_users[sid])
-        window.evaluate_js(
-            f'''document.getElementById("playerlist").innerHTML += `<button onclick="pywebview.api.kickUser('{sid}');" enabled="true">{connected_users[sid]}</button>`;''')
+        for sid in connected_users:
+            print(connected_users[sid])
+            window.evaluate_js(f'''document.getElementById("playerlist").innerHTML += `<button onclick="pywebview.api.kickUser('{sid}');" enabled="true">{connected_users[sid]}</button>`''')
 
-    window.set_title(f"{title} - {len(connected_users)} Connected players")
+        window.set_title(f"{title} - {len(connected_users)} Connected players")
+    except Exception as e:
+        print(e)
 
 
 @socketio.on('disconnect')
@@ -289,20 +293,34 @@ def hadheahda(data):
     session_id = request.sid
     user_drawings[session_id] = data
 
+@socketio.on('done-drawing')
+def done_drawing():
+    sid = request.sid
+    done_users.append(sid)
 
 @socketio.on('vote-status')
 def haasgwahg(data):
     session_id = request.sid
+    voted_users.append(session_id)
     user_scores[current_user_drawing] += data
 
 
-async def countdown(total_seconds, message):
+async def countdown(total_seconds, message, drawing=False):
     playsoundcode = 'var audio = new Audio("/timerboop.wav"); audio.play();'
 
     for remaining_seconds in range(total_seconds, 0, -1):
         # Update the DOM element with the remaining time
         js_code = f'document.getElementById("splashtext").innerText = "{remaining_seconds} seconds left of {message}";'
+        
         try:
+            if drawing:
+                numofconnected_users = len(connected_users)
+                numofdone_users = len(done_users)
+
+                if numofconnected_users == numofdone_users:
+                    socketio.emit("drawing-time", False)
+                    window.evaluate_js(playsoundcode)
+                    break
             window.evaluate_js(js_code)
         except:
             pass
@@ -347,7 +365,7 @@ async def countdown2(total_seconds, message):
 
 
 async def main_game():
-    global current_user_drawing, playing
+    global current_user_drawing, playing, voted_users
     playing = True
     # Notify all clients that the problem handout is starting
     socketio.emit("problem-handout", "Get ready!".encode('utf-8'))
@@ -384,7 +402,7 @@ async def main_game():
     window.evaluate_js(getJsCodeSnippet("playost1"))
 
     # Wait for drawing time to finish
-    await countdown(70, "drawing time ✏️")  # 70
+    await countdown(70, "drawing time ✏️", True)  # 70
 
     # Notify all clients that drawing time has ended
     socketio.emit("drawing-time", False)
@@ -396,16 +414,19 @@ async def main_game():
     # Present each user's drawing and handle voting
     for user_id in user_drawings:
         try:
+            voted_users = []
             img_src = user_drawings[user_id]
             current_user_drawing = user_id
             js_code = f'''
-            document.body.innerHTML = `<canvas id="myCanvas" style="position: absolute; size: 100%; overflow: hidden"></canvas>`;
-    
+            document.body.innerHTML = `<canvas id="myCanvas" style="position: absolute; size: 100%; overflow: hidden"></canvas><div class="wrapper" id="imgcontain"></div>`;
+            
+
+
             var imgViewer = document.createElement("img");
             imgViewer.src = "{img_src}";
-            imgViewer.style.animation = "rotate 3s infinite ease-in-out";
+            imgViewer.id = "slide";
     
-            document.body.appendChild(imgViewer);
+            document.getElementById("imgcontain").appendChild(imgViewer);
     
             var userTitle = document.createElement("h1");
     
@@ -440,10 +461,15 @@ async def main_game():
             try:
                 window.evaluate_js(getJsCodeSnippet("votingtime"))
             except Exception as e:
-                print("ERROR: " + str(e))
-            await countdown2(10, f"Voting time left: ") # 10
+                print(f"ERROR 1: \033[1;32m{traceback.format_exc()}\033[0m")
+            for i in range(10):  # 10
+                print(len(connected_users) - 1)
+                print(len(voted_users))
+                if len(voted_users) == len(connected_users) - 1:
+                    break
+                await asyncio.sleep(1)
         except Exception as e:
-            print("ERROR 2: " + str(e))
+            print(f"ERROR 2: \033[1;32m{traceback.format_exc()}\033[0m")
 
     socketio.emit("winners-time", "")
 
@@ -482,6 +508,11 @@ async def main_game():
         data[connected_users[socket_id]] = user_scores[socket_id] #  sort by highest scores
 
     data = dict(sorted(data.items(), key=lambda item: item[1], reverse=True))
+
+    print(data)
+
+    if os.name() != "windows":
+        return
 
     hti = Html2Image()
     hti.screenshot(html_str=dict_to_html_table(data), save_as='scorecard.png')

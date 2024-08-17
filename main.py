@@ -365,7 +365,7 @@ async def countdown2(total_seconds, message):
 
 
 async def main_game():
-    global current_user_drawing, playing
+    global current_user_drawing, playing, voted_users
     playing = True
     # Notify all clients that the problem handout is starting
     socketio.emit("problem-handout", "Get ready!".encode('utf-8'))

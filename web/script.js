@@ -95,12 +95,12 @@ socket.on("connect", () => {
 })
 
 socket.on("disconnect", () => {
-    window.location.reload()
+    window.location.href = 'https://chaoticinventors.vercel.app/'
 })
 
 socket.on("remove-client", (data) => {
     if (data == socket.id) {
-        window.location.reload()
+        window.location.href = 'https://chaoticinventors.vercel.app/'
     }
 })
 

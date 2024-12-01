@@ -57,11 +57,6 @@
 <body>
     <canvas style="z-index: -1000;" id="myCanvas"></canvas>
 
-    <label class="switch">
-        <input id="enableAudio" type="checkbox" checked />
-        <span class="slider-on round" id="enableAudio2"></span>
-    </label>
-
     <h1 id="asgduijasndujwd" style="font-size: 3em;">Connect via QR, URL or</h1>
     <button style="position: absolute; top: 5px; right: 5px;" onclick="window.pywebview.api.startGame();">Start!</button>
     
@@ -155,45 +150,6 @@
             update();
             createTextAnimation(text, duration);
         }
-
-        let audioUrl = '';
-
-        fetch("http://localhost:5000/ost?num=1")
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.blob();
-            })
-            .then(blob => {
-                audioUrl = URL.createObjectURL(blob);
-                const audio = new Audio(audioUrl);
-                const enableAudio = document.getElementById("enableAudio");
-
-                enableAudio.addEventListener("change", () => {
-                    pywebview.api.setMusic(enableAudio.checked);
-                    const slider = document.getElementById("enableAudio2");
-
-                    if (enableAudio.checked) {
-                        slider.classList.add("slider-on");
-                        slider.classList.remove("slider-off");
-                        audio.play();
-                    } else {
-                        slider.classList.add("slider-off");
-                        slider.classList.remove("slider-on");
-                        audio.pause();
-                    }
-                });
-
-                setTimeout(() => {
-                    audio.play().catch(error => {
-                        window.location.reload();
-                    });
-                }, 150);
-            })
-            .catch(error => {
-                console.error("There was a problem with the fetch operation:", error);
-            });
     </script>
 </body>
 </html>

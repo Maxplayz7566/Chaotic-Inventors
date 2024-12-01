@@ -1,5 +1,7 @@
+import time
+
+
 try:
-    import subprocess
     import asyncio
     import json
     import os
@@ -7,15 +9,14 @@ try:
     import socket
     import threading
     from html2image import Html2Image
-    import platformdirs
     import webview
     from flask import Flask, send_from_directory, request
     from flask_socketio import emit, SocketIO
     from PIL import Image
     import base64
-    import shutil
     import traceback
     from io import BytesIO
+    import requests
 except Exception as e:
     print(f"Error please install nessasary packages {str(e)}")
 
@@ -30,7 +31,6 @@ current_user_drawing = ""
 playing = False
 sound = True
 done_users = []
-configDir = platformdirs.user_config_dir("ChaoiticInventors")
 
 with open("problems.json", "r") as f:
     problems = json.loads(f.read())
@@ -39,12 +39,6 @@ with open("problems.json", "r") as f:
 socketio = SocketIO(app, cors_allowed_origins="*")  # Allow all origins
 window = None
 title = "Chaotic Inventors v1.0"
-
-def copy(src, dst):
-    try:
-        shutil.copy(src, dst)
-    except:
-        pass
 
 def getJsCodeSnippet(name):
     with open(f"js-snippets/{name}.js", "r") as f:
@@ -211,19 +205,6 @@ def index():
 @app.route('/<path:filename>', methods=['GET'])
 def serve_static(filename):
     return send_from_directory('./web', filename)
-
-@app.route('/ost', methods=["GET"])
-def getost():
-    ostnum = request.args.get('num', type=int)
-    if ostnum is None:
-        abort(400, description="Missing 'num' query parameter")
-
-    file_path = os.path.join(configDir, f"ost{ostnum}.wav")
-    if os.path.exists(file_path):
-        return send_file(file_path)
-    else:
-        abort(404)
-
 
 @socketio.on('message')
 def handle_message(data):
@@ -399,8 +380,6 @@ async def main_game():
     # Notify all clients that drawing time is starting
     socketio.emit("drawing-time", True)
 
-    window.evaluate_js(getJsCodeSnippet("playost1"))
-
     # Wait for drawing time to finish
     await countdown(70, "drawing time ✏️", True)  # 70
 
@@ -526,6 +505,10 @@ async def main_game():
 def run_flask_app():
     socketio.run(app, host='0.0.0.0', port=5000, debug=False, use_reloader=False, allow_unsafe_werkzeug=True)
 
+def getIp():
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('10.0.0.0', 0))  
+        return s.getsockname()[0]
 
 class Api:
     def get_players(self):
@@ -548,11 +531,6 @@ class Api:
         else:
             print("Cant start the game you need atleast 2 people to play!")
             return "Cant start the game you need atleast 2 people to play!"
-
-    def getIp(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(('10.0.0.0', 0))  
-        return s.getsockname()[0]
 
     def restart(self):
         window.destroy()
@@ -655,17 +633,21 @@ def dict_to_html_table(data):
 
     return html
 
+def keepAlive():
+    while True:
+        requests.get(f'https://chaoticinventors.vercel.app/keepAlive?room={roomId}')
+        time.sleep(10)
 
 if __name__ == '__main__':
+    roomId = requests.get(f'https://chaoticinventors.vercel.app/getRoom?host={getIp()}').text
+
     flask_thread = threading.Thread(target=run_flask_app)
     flask_thread.daemon = True
     flask_thread.start()
 
-    if not os.path.exists(configDir):
-        os.mkdir(configDir)
-        print(f"Created config dir at {configDir}")
-
-    copy("sound/ost1.wav", os.path.join(configDir, "ost1.wav"))
+    keepAlive_thread = threading.Thread(target=keepAlive)
+    keepAlive_thread.daemon = True
+    keepAlive_thread.start()
 
     fs = False
     with open("fullscreen.txt", "r") as f:

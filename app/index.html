@@ -1,148 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>QR Code and Animation</title>
     <script src="script.js" defer></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <style>
-        body {
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-image: url("paper.gif");
-            margin: 0;
-        }
+      body {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url("paper.gif");
+        margin: 0;
+      }
 
-        h1 {
-            position: absolute;
-            top: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+      h1 {
+        position: absolute;
+        top: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
 
-        .qrnip {
-            position: absolute;
-            bottom: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-        }
+      .qrnip {
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        align-items: center;
+      }
 
-        #myCanvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 10;
-        }
+      #myCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 10;
+      }
 
-        .switch {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            display: flex;
-            align-items: center;
-        }
+      .switch {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        display: flex;
+        align-items: center;
+      }
     </style>
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
     </style>
-</head>
-<body>
-    <canvas style="z-index: -1000;" id="myCanvas"></canvas>
+  </head>
+  <body>
+    <canvas style="z-index: -1000" id="myCanvas"></canvas>
 
-    <h1 id="asgduijasndujwd" style="font-size: 3em;">Game code: </h1>
-    <button style="position: absolute; top: 5px; right: 5px;" onclick="window.pywebview.api.startGame();">Start!</button>
-    
-    <div id="playerlist" style="z-index: 1000;"></div>
-    
+    <h1 id="asgduijasndujwd" style="font-size: 3em">Game code:</h1>
+    <button
+      style="position: absolute; top: 5px; right: 5px"
+      onclick="window.pywebview.api.startGame();"
+    >
+      Start!
+    </button>
+
+    <div id="playerlist" style="z-index: 1000"></div>
+
     <div class="qrnip">
-        <h2 id="connectviaip" style="z-index: 10001; margin: 0; padding-right: 10px; font-size: 3em;">Loading</h2>
-        <img id="QRCODE" src="" style="z-index: 10001; width: 128px; max-width: 128px;">
+      <h2
+        id="connectviaip"
+        style="z-index: 10001; margin: 0; padding-right: 10px; font-size: 3em"
+      >
+        Loading
+      </h2>
+      <img
+        id="QRCODE"
+        src=""
+        style="z-index: 10001; width: 128px; max-width: 128px"
+      />
     </div>
 
     <script>
-        function tryGetIp() {
-            if (typeof pywebview !== "undefined" && pywebview.api && pywebview.api.getIp) {
-                pywebview.api.getIp()
-                    .then(data => {
-                        if (data) {
-                            document.getElementById("asgduijasndujwd").innerText = "Game code: " + data;
-                            document.getElementById("connectviaip").innerText = "https://chaoticinventors.vercel.app";
-                            document.getElementById("QRCODE").src = `https://quickchart.io/qr?text=https://chaoticinventors.vercel.app/#${data}&margin=0&size=512&light=0000`;
-                        } else {
-                            setTimeout(tryGetIp, 1);
-                        }
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        setTimeout(tryGetIp, 1);
-                    });
+      function tryGetIp() {
+        pywebview.api
+          .getCode()
+          .then((data) => {
+            if (data) {
+              document.getElementById("asgduijasndujwd").innerText =
+                "Game code: " + data;
+              document.getElementById("connectviaip").innerText =
+                "https://chaoticinventors.vercel.app";
+              document.getElementById(
+                "QRCODE"
+              ).src = `https://quickchart.io/qr?text=https://chaoticinventors.vercel.app/#${data}&margin=0&size=512&light=0000`;
             } else {
-                setTimeout(tryGetIp, 1);
+              setTimeout(tryGetIp, 1);
             }
-        }
+          })
+          .catch((error) => {
+            console.error(error);
+            setTimeout(tryGetIp, 1);
+          });
+      }
 
-        tryGetIp();
+      tryGetIp();
 
-        const animations = [];
+      const animations = [];
 
-        function createTextAnimation(text, duration) {
-            const canvas = document.getElementById("myCanvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            const startY = canvas.height;
-            const endY = -100;
-            const randomX = Math.random() * canvas.width;
-            animations.push({
-                text,
-                duration,
-                startTime: performance.now(),
-                startY,
-                endY,
-                randomX,
-            });
-        }
+      function createTextAnimation(text, duration) {
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const startY = canvas.height;
+        const endY = -100;
+        const randomX = Math.random() * canvas.width;
+        animations.push({
+          text,
+          duration,
+          startTime: performance.now(),
+          startY,
+          endY,
+          randomX,
+        });
+      }
 
-        function update() {
-            const canvas = document.getElementById("myCanvas");
-            const ctx = canvas.getContext("2d");
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+      function update() {
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            for (const animation of animations) {
-                const { text, duration, startTime, startY, endY, randomX } = animation;
-                const elapsed = performance.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const currentY = startY - (startY - endY) * progress;
-                ctx.font = `3em "System-ui"`;
-                ctx.fillStyle = "black";
-                ctx.textAlign = "center";
-                ctx.fillText(text, randomX, currentY);
+        for (const animation of animations) {
+          const { text, duration, startTime, startY, endY, randomX } =
+            animation;
+          const elapsed = performance.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const currentY = startY - (startY - endY) * progress;
+          ctx.font = `3em "System-ui"`;
+          ctx.fillStyle = "black";
+          ctx.textAlign = "center";
+          ctx.fillText(text, randomX, currentY);
 
-                if (progress >= 1) {
-                    const index = animations.indexOf(animation);
-                    if (index > -1) {
-                        animations.splice(index, 1);
-                    }
-                }
+          if (progress >= 1) {
+            const index = animations.indexOf(animation);
+            if (index > -1) {
+              animations.splice(index, 1);
             }
-
-            requestAnimationFrame(update);
+          }
         }
 
-        function addText(text, duration) {
-            update();
-            createTextAnimation(text, duration);
-        }
+        requestAnimationFrame(update);
+      }
+
+      function addText(text, duration) {
+        update();
+        createTextAnimation(text, duration);
+      }
     </script>
-</body>
+  </body>
 </html>

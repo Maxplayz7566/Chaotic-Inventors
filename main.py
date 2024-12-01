@@ -535,6 +535,9 @@ class Api:
     def restart(self):
         window.destroy()
         exit()
+    
+    def getCode():
+        return roomId
 
     def fullscreen(self):
         window.toggle_fullscreen()
@@ -639,8 +642,8 @@ def keepAlive():
         time.sleep(10)
 
 if __name__ == '__main__':
-    roomId = requests.get(f'https://chaoticinventors.vercel.app/getRoom?host={getIp()}').text
-
+    roomId = requests.get(f'https://chaoticinventors.vercel.app/getRoom?host={getIp()}:5000').text
+    print(roomId)
     flask_thread = threading.Thread(target=run_flask_app)
     flask_thread.daemon = True
     flask_thread.start()

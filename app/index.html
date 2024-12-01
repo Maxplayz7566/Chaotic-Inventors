@@ -57,7 +57,7 @@
 <body>
     <canvas style="z-index: -1000;" id="myCanvas"></canvas>
 
-    <h1 id="asgduijasndujwd" style="font-size: 3em;">Connect via QR, URL or</h1>
+    <h1 id="asgduijasndujwd" style="font-size: 3em;">Game code: </h1>
     <button style="position: absolute; top: 5px; right: 5px;" onclick="window.pywebview.api.startGame();">Start!</button>
     
     <div id="playerlist" style="z-index: 1000;"></div>
@@ -68,21 +68,14 @@
     </div>
 
     <script>
-        function getLastSegment(ipAddress) {
-            const segments = ipAddress.split(".");
-            let lastSegment = segments[segments.length - 1];
-            return lastSegment.padStart(3, "0");
-        }
-
         function tryGetIp() {
             if (typeof pywebview !== "undefined" && pywebview.api && pywebview.api.getIp) {
                 pywebview.api.getIp()
                     .then(data => {
                         if (data) {
-                            const lastSegment = getLastSegment(data);
-                            document.getElementById("asgduijasndujwd").innerText = "Connect via QR Code, URL or code: " + lastSegment;
-                            document.getElementById("connectviaip").innerText = "http://" + data + ":5000";
-                            document.getElementById("QRCODE").src = `https://quickchart.io/qr?text=http://${data}:5000&margin=0&size=512&light=0000`;
+                            document.getElementById("asgduijasndujwd").innerText = "Game code: " + data;
+                            document.getElementById("connectviaip").innerText = "https://chaoticinventors.vercel.app";
+                            document.getElementById("QRCODE").src = `https://quickchart.io/qr?text=https://chaoticinventors.vercel.app/#${data}&margin=0&size=512&light=0000`;
                         } else {
                             setTimeout(tryGetIp, 1);
                         }

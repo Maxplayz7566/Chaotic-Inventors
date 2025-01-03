@@ -1,6 +1,5 @@
 import time
 
-
 try:
     import asyncio
     import json
@@ -36,7 +35,8 @@ with open("problems.json", "r") as f:
     problems = json.loads(f.read())
     f.close()
 
-socketio = SocketIO(app, cors_allowed_origins="*")  # Allow all origins
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 window = None
 title = "Chaotic Inventors v1.0"
 
@@ -196,15 +196,13 @@ async def get_random_problem(selected_problems):
 
         available_problems = [p for p in problems if p not in selected_problems]
 
-
-@app.route('/', methods=['GET'])
+@app.route('/')
 def index():
-    return send_from_directory('./web', 'index.html')
+    return send_from_directory('web', 'game.html')
 
-
-@app.route('/<path:filename>', methods=['GET'])
-def serve_static(filename):
-    return send_from_directory('./web', filename)
+@app.route('/<path:filename>')
+def serve_file(filename):
+    return send_from_directory('web', filename)
 
 @socketio.on('message')
 def handle_message(data):

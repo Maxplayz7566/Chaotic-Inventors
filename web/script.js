@@ -1,6 +1,6 @@
-var socket = io(window.location.hostname + `:${location.port}`, {
+var socket = io('http://' + window.location.host, {
     autoConnect: false
-})
+});
 
 var problem = ""
 let runCount = 0 // Initialize the counter
